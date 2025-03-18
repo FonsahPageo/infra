@@ -12,7 +12,6 @@ services:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - ./inventory/hosts.ini:/var/jenkins_home/ansible/inventory/hosts.ini
-      # - ./ansible/playbooks/ansible_tools_check.yaml:/var/jenkins_home/ansible/playbooks/ansible_tools_check.yaml:ro
       - /c/Users/ashpr/.ssh/FansoPageo:/var/jenkins_home/.ssh/FansoPageo # modify according to where your key is stored
     environment:
       - JAVA_OPTS=-Xms512m -Xmx2048m
