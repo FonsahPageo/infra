@@ -1,0 +1,27 @@
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jenkins
+    user: root
+    ports:
+      - "8088:8088"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./ansible/inventory/hosts.ini:/var/jenkins_home/ansible/inventory/hosts.ini:ro
+      - ./ansible/playbooks/ansible_tools_check.yaml:/var/jenkins_home/ansible/playbooks/ansible_tools_check.yaml:ro
+      - /c/Users/ashpr/.ssh/FansoPageo:/var/jenkins_home/.ssh/FansoPageo # modify according to where your key is stored
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx2048m
+      - JENKINS_OPTS=--httpPort=8088
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "sleep 30 && curl --fail http://localhost:8088/login || exit 1"]
+      interval: 30s
+      retries: 3
+
+volumes:
+  jenkins_home:
