@@ -17,9 +17,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 
-RUN mkdir -p /var/jenkins_home/ansible && \
-    chown -R jenkins:jenkins /var/jenkins_home/ansible
-
 RUN mkdir -p /var/run/sshd && \
     echo 'root:root' | chpasswd && \
     sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
@@ -30,5 +27,3 @@ EXPOSE 22
 CMD ["/usr/local/bin/jenkins.sh"]
 
 USER jenkins
-
-COPY inventory/hosts.ini /var/jenkins_home/ansible/hosts.ini
